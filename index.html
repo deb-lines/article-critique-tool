@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article Critique Tool</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1C1C1A;
+  --ink-mid: #68665F;
+  --ink-light: #9C9A93;
+  --surface: #FFFFFF;
+  --bg: #F7F5EF;
+  --border: #E0DBD3;
+  --border-active: #1C1C1A;
+  --danger: #C83526;
+  --focus: rgba(28,28,26,0.07);
+  --radius: 3px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #E8E6DE;
+    --ink-mid: #9A9890;
+    --ink-light: #6A6860;
+    --surface: #1E1E1C;
+    --bg: #141412;
+    --border: #2E2E2A;
+    --border-active: #E8E6DE;
+    --focus: rgba(232,230,222,0.07);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 560px;
+  padding: 52px 28px 72px;
+}
+
+.masthead {
+  border-top: 1.5px solid var(--ink);
+  padding-top: 20px;
+  margin-bottom: 44px;
+}
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mid);
+  margin-bottom: 16px;
+}
+
+h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.intro {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+
+.field {
+  margin-bottom: 22px;
+}
+
+label {
+  display: block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 5px;
+}
+
+.hint {
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-light);
+  margin-bottom: 9px;
+  line-height: 1.5;
+}
+
+input[type="url"],
+textarea {
+  display: block;
+  width: 100%;
+  padding: 13px 15px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  -webkit-appearance: none;
+}
+
+input[type="url"]::placeholder,
+textarea::placeholder {
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+input[type="url"]:focus,
+textarea:focus {
+  border-color: var(--border-active);
+  box-shadow: 0 0 0 3px var(--focus);
+}
+
+textarea {
+  min-height: 160px;
+  resize: vertical;
+  line-height: 1.65;
+}
+
+.field.has-error input,
+.field.has-error textarea {
+  border-color: var(--danger);
+}
+
+.field-error {
+  display: none;
+  font-size: 12px;
+  color: var(--danger);
+  margin-top: 7px;
+}
+
+.field.has-error .field-error {
+  display: block;
+}
+
+.or-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 6px 0 22px;
+}
+
+.or-row::before,
+.or-row::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.or-label {
+  font-size: 11px;
+  color: var(--ink-light);
+  white-space: nowrap;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.submit-area {
+  margin-top: 36px;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 15px 24px;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-family: 'Source Sans 3', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  text-align: center;
+}
+
+.submit-btn:hover { opacity: 0.85; }
+.submit-btn:active { opacity: 0.7; }
+
+.dimensions-label {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-light);
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.tag {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--ink-light);
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="masthead">
+    <p class="eyebrow">Article Critique Tool</p>
+    <h1>What are you evaluating today?</h1>
+    <p class="intro">Submit a URL or paste the full article text. You will receive a structured critique across five evaluation dimensions.</p>
+  </div>
+
+  <div id="url-field" class="field">
+    <label for="url-input">Article URL</label>
+    <span class="hint">Paste the link to any design or product article</span>
+    <input
+      type="url"
+      id="url-input"
+      name="url"
+      placeholder="https://example.com/article-title"
+      autocomplete="off"
+      spellcheck="false"
+      oninput="clearError('url-field')"
+    />
+    <span class="field-error">Please provide a URL or paste the article text below</span>
+  </div>
+
+  <div class="or-row">
+    <span class="or-label">or paste the article text directly</span>
+  </div>
+
+  <div id="text-field" class="field">
+    <label for="text-input">Article text</label>
+    <span class="hint">Use this if the article is paywalled or the URL is unavailable</span>
+    <textarea
+      id="text-input"
+      name="text"
+      placeholder="Paste the full article text here..."
+      spellcheck="false"
+      oninput="clearError('text-field'); clearError('url-field')"
+    ></textarea>
+  </div>
+
+  <div class="submit-area">
+    <button class="submit-btn" onclick="handleSubmit()">Critique this article</button>
+    <p class="dimensions-label">Evaluated across five dimensions</p>
+    <div class="tags">
+      <span class="tag">Fabricated frameworks</span>
+      <span class="tag">Misrepresented citations</span>
+      <span class="tag">Recycled AI content</span>
+      <span class="tag">Analytical rigour</span>
+      <span class="tag">Practical value</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function clearError(id) {
+  document.getElementById(id).classList.remove('has-error');
+}
+
+function handleSubmit() {
+  const url = document.getElementById('url-input').value.trim();
+  const text = document.getElementById('text-input').value.trim();
+
+  clearError('url-field');
+  clearError('text-field');
+
+  if (!url && !text) {
+    document.getElementById('url-field').classList.add('has-error');
+    document.getElementById('url-input').focus();
+    return;
+  }
+
+  // In the real project this is where you call the backend:
+  // fetch('/api/critique', {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ url, text })
+  // })
+
+  console.log('Ready to submit:', { url: url || null, text: text || null });
+}
+</script>
+</body>
+</html>
