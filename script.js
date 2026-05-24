@@ -46,9 +46,15 @@ async function submitCritique() {
   
     let critique;
   
+    // Strip markdown code fences if the model added them anyway
+    let raw = critiqueText.trim();
+    if (raw.startsWith('```')) {
+      raw = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+    }
+
     // Try to parse it as JSON
     try {
-      critique = JSON.parse(critiqueText);
+      critique = JSON.parse(raw);
     } catch {
       showError('The response was not in the expected format. Please try again.');
       return;
